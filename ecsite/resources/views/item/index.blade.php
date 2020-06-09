@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- flash_messageが存在した時だけセッション内容を表示 -->
+  @if(Session::has('flash_message'))
+  <div class="alert alert-success">
+    {{ session('flash_message') }}
+  </div>
+  @endif
     <div class="container">
         <div class="row justify-content-left">
             @foreach ($items as $item)
@@ -10,9 +16,26 @@
                       <a href="/item/{{ $item->id }}">{{ $item->name }}
                       </a>
                     </div>
+
                     <div class="card-body">
-                        {{ $item->amount }}
+                        {{ $item->amount }}円 <!-- 商品価格 -->
                     </div>
+                    @auth <!-- 以下endauthまでをログイン中のみ表示する -->
+                      <form method="POST" action="cartitem" class="form-inline m-1">
+                        {{ csrf_field() }}
+                        <!-- 数量 プルダウンメニュー -->
+                        <select name="quantity" class="form-control col-md-2 mr-1">
+                          <option selected>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                        <!-- 商品IDをcartitemにPOSTで送る -->
+                        <input type="hidden" name="item_id" value="{{ $item->id }}">
+                        <button type="submit" class="btn btn-primary col-md-6">カートに入れる</button>
+                      </form>
+                    @endauth
                 </div>
             </div>
             @endforeach
