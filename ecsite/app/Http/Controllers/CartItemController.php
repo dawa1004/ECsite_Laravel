@@ -92,9 +92,13 @@ class CartItemController extends Controller
      * @param  \App\CartItem  $cartItem
      * @return \Illuminate\Http\Response
      */
+    // 更新元のカート情報と更新する数量を受け取る為のリクエスト情報を受け取る
     public function update(Request $request, CartItem $cartItem)
     {
-        //
+        // 更新する元の数量を上書き
+        $cartItem->quantity = $request->post('quantity');
+        $cartItem->save();
+        return redirect('cartitem')->with('flash_message', 'カートを更新しました');
     }
 
     /**
@@ -105,6 +109,7 @@ class CartItemController extends Controller
      */
     public function destroy(CartItem $cartItem)
     {
-        //
+        $cartItem->delete();
+        return redirect('cartitem')->with('flash_message', 'カートから削除しました');
     }
 }

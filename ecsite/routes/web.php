@@ -16,3 +16,5 @@ Route::get('/item/{item}', 'ItemController@show');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/cartitem', 'CartItemController@store');
+// カート一覧
+Route::get('/cartitem', 'CartItemController@index');
