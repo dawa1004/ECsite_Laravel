@@ -18,3 +18,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/cartitem', 'CartItemController@store');
 // カート一覧
 Route::get('/cartitem', 'CartItemController@index');
+Route::delete('/cartitem/{cartItem}', 'CartItemController@destroy');
+Route::put('/cartitem/{cartItem}', 'CartItemController@update');
